@@ -119,23 +119,28 @@ export class SketchCanvas extends React.Component<SketchCanvasProps & ViewProper
 export interface RNSketchCanvasProps {
   containerStyle?: StyleProp<ViewStyle>
   canvasStyle?: StyleProp<ViewStyle>
+  menuStyle?: StyleProp<ViewStyle>
+  menuInnerStyle?: StyleProp<ViewStyle>
   onStrokeStart?: () => void
   onStrokeChanged?: () => void
   onStrokeEnd?: (path: Path) => void
   onClosePressed?: () => void
   onUndoPressed?: (id: number) => void
   onClearPressed?: () => void
+  onErasePressed?: () => void
+  onSketchPressed?: () => void
   onPathsChange?: (pathsCount: number) => void
   user?: string
 
   closeComponent?: JSX.Element,
   eraseComponent?: JSX.Element,
+  sketchComponent?: JSX.Element,
   undoComponent?: JSX.Element,
   clearComponent?: JSX.Element,
   saveComponent?: JSX.Element,
   strokeComponent?: (color: string) => JSX.Element
   strokeSelectedComponent?: (color: string, index: number, changed: boolean) => JSX.Element
-  strokeWidthComponent?: (width: number) => JSX.Element
+  strokeWidthComponent?: (width: number,setW: (w: number) => {}) => JSX.Element
 
   strokeColors?: {color: string}[]
   defaultStrokeIndex?: number

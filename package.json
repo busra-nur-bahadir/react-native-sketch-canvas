@@ -2,7 +2,7 @@
   "name": "@terrylinla/react-native-sketch-canvas",
   "repository": {
     "type": "git",
-    "url": "https://github.com/terrylinla/react-native-sketch-canvas"
+    "url": "https://github.com/busra-nur-bahadir/react-native-sketch-canvas"
   },
   "version": "0.8.0",
   "description": "react-native-sketch-canvas allows you to draw / sketch on both iOS and Android devices and sync the drawing data between users. Of course you can save as image.",
@@ -19,5 +19,8 @@
     "draw"
   ],
   "nativePackage": true,
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@react-native-community/checkbox": "^0.5.17"
+  }
 }
