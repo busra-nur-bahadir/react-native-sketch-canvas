@@ -141,7 +141,7 @@ export interface RNSketchCanvasProps {
   strokeComponent?: (color: string) => JSX.Element
   strokeSelectedComponent?: (color: string, index: number, changed: boolean) => JSX.Element
   strokeWidthComponent?: (width: number,setW: (w: number) => {}) => JSX.Element
-
+  strokeColorsComponent?: JSX.Element,
   strokeColors?: {color: string}[]
   defaultStrokeIndex?: number
   defaultStrokeWidth?: number
