@@ -271,7 +271,7 @@ export default class RNSketchCanvas extends React.Component {
               {(this.props.strokeWidthComponent && this.state.subMenu == 'sketchComponent') && (
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={{ justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap', flexDirection: 'row' }}>
-                    {this.props.strokeColorComponent}
+                    {this.props.strokeColorsComponent}
                     <View style={{ backgroundColor: this.state.color + (this.state.color.length === 9 ? '' : this.state.alpha), width: 20, height: 20, borderRadius: 4 }} />
                   </View>
                   <View style={{ flexDirection: 'row' }}>
