@@ -124,6 +124,7 @@ export default class RNSketchCanvas extends React.Component {
       color: props.strokeColors[props.defaultStrokeIndex].color,
       strokeWidth: props.defaultStrokeWidth,
       alpha: 'FF',
+      subMenu: 'sketchComponent',
     };
     this._colorChanged = false;
     this._strokeWidthStep = props.strokeWidthStep;
