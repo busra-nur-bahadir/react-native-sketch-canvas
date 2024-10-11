@@ -63,6 +63,7 @@ export interface LocalSourceImage {
 export interface SketchCanvasProps {
   style?: StyleProp<ViewStyle>
   strokeColor?: string
+  touchEnabled?:boolean
   strokeWidth?: number
   user?: string
 
@@ -131,7 +132,7 @@ export interface RNSketchCanvasProps {
   onSketchPressed?: () => void
   onPathsChange?: (pathsCount: number) => void
   user?: string
-
+  touchEnabled?:boolean
   closeComponent?: JSX.Element,
   eraseComponent?: JSX.Element,
   sketchComponent?: JSX.Element,

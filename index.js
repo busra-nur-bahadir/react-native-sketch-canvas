@@ -10,6 +10,7 @@ import { requestPermissions } from './src/handlePermissions';
 export default class RNSketchCanvas extends React.Component {
 
   static defaultProps = {
+    touchEnabled:true,
     containerStyle: null,
     menuStyle: null,
     canvasStyle: null,
@@ -254,6 +255,7 @@ export default class RNSketchCanvas extends React.Component {
           localSourceImage={this.props.localSourceImage}
           permissionDialogTitle={this.props.permissionDialogTitle}
           permissionDialogMessage={this.props.permissionDialogMessage}
+          touchEnabled={this.props.touchEnabled}
         />
       </View>
     );
