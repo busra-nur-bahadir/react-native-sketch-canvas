@@ -10,7 +10,7 @@ import { requestPermissions } from './src/handlePermissions';
 export default class RNSketchCanvas extends React.Component {
 
   static defaultProps = {
-    touchEnabled:true,
+    touchEnabled: true,
     containerStyle: null,
     menuStyle: null,
     canvasStyle: null,
@@ -135,7 +135,7 @@ export default class RNSketchCanvas extends React.Component {
   }
 
 
-  onClickColor = (itemColor,btn) => {
+  onClickColor = (itemColor, btn) => {
     if (this.state.color === itemColor && btn) {
       const index = this.props.alphaValues.indexOf(this.state.alpha);
       this.setState({
@@ -150,7 +150,10 @@ export default class RNSketchCanvas extends React.Component {
   _renderItem = ({ item }) => (
     <TouchableOpacity
       style={{ marginHorizontal: 2.5 }}
-      onPress={() => this.onClickColor(item.color,true)}
+      onPress={() => {
+        this.onClickColor(item.color, true)
+        this.props.onSketchPressed()
+      }}
     >
       {this.state.color !== item.color && this.props.strokeComponent && this.props.strokeComponent(item.color)}
       {this.state.color === item.color && this.props.strokeSelectedComponent && this.props.strokeSelectedComponent(item.color + (this.state.color.length === 9 ? '' : this.state.alpha))}
@@ -179,7 +182,7 @@ export default class RNSketchCanvas extends React.Component {
                   var tempColor = this.state.color == '#00000000' ? '#000000' : this.state.color
                   this.props.strokeSelectedComponent(tempColor + (this.state.color.length === 9 ? '' : this.state.alpha))
                   this.props.strokeComponent(tempColor)
-                  this.onClickColor(tempColor,false)
+                  this.onClickColor(tempColor, false)
                   this.props.onSketchPressed()
                 }}>
                   {this.props.sketchComponent}
@@ -215,11 +218,11 @@ export default class RNSketchCanvas extends React.Component {
               )}
             </View>
             <View style={[this.props.menuInnerStyle]}>
-              {(this.props.strokeWidthComponent && this.state.subMenu == 'sketchComponent') && (
-                  this.props.strokeWidthComponent(this.state.strokeWidth, (value) => this.nextStrokeWidth(value))
+              {(this.props.strokeWidthComponent) && (
+                this.props.strokeWidthComponent(this.state.strokeWidth, (value) => this.nextStrokeWidth(value))
               )
               }
-              {(this.props.strokeWidthComponent && this.state.subMenu == 'sketchComponent') && (
+              {(this.props.strokeWidthComponent) && (
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={{ justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap', flexDirection: 'row' }}>
                     {this.props.strokeColorsComponent}
