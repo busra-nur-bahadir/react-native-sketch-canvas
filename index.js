@@ -5,7 +5,7 @@ import {
   FlatList,
 } from 'react-native';
 import SketchCanvas from './src/SketchCanvas';
-import { requestPermissions } from './src/handlePermissions';
+// import { requestPermissions } from './src/handlePermissions';
 
 export default class RNSketchCanvas extends React.Component {
 
@@ -164,9 +164,9 @@ export default class RNSketchCanvas extends React.Component {
     this._colorChanged = false;
   }
 
-  async componentDidMount() {
-    await requestPermissions(this.props.permissionDialogTitle, this.props.permissionDialogMessage);
-  }
+  // async componentDidMount() {
+  //   await requestPermissions(this.props.permissionDialogTitle, this.props.permissionDialogMessage);
+  // }
 
   render() {
     return (
