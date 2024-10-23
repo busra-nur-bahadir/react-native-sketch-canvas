@@ -63,7 +63,6 @@ export interface LocalSourceImage {
 export interface SketchCanvasProps {
   style?: StyleProp<ViewStyle>
   strokeColor?: string
-  touchEnabled?:boolean
   strokeWidth?: number
   user?: string
 
@@ -122,6 +121,8 @@ export interface RNSketchCanvasProps {
   canvasStyle?: StyleProp<ViewStyle>
   menuStyle?: StyleProp<ViewStyle>
   menuInnerStyle?: StyleProp<ViewStyle>
+  currentTool?: string,
+  setTool?: React.Dispatch<React.SetStateAction<string>>,
   onStrokeStart?: () => void
   onStrokeChanged?: () => void
   onStrokeEnd?: (path: Path) => void
@@ -132,7 +133,7 @@ export interface RNSketchCanvasProps {
   onSketchPressed?: () => void
   onPathsChange?: (pathsCount: number) => void
   user?: string
-  touchEnabled?:boolean
+  touchEnabled?: boolean
   closeComponent?: JSX.Element,
   eraseComponent?: JSX.Element,
   sketchComponent?: JSX.Element,
@@ -141,9 +142,9 @@ export interface RNSketchCanvasProps {
   saveComponent?: JSX.Element,
   strokeComponent?: (color: string) => JSX.Element
   strokeSelectedComponent?: (color: string, index: number, changed: boolean) => JSX.Element
-  strokeWidthComponent?: (width: number,setW: (w: number) => {}) => JSX.Element
+  strokeWidthComponent?: (width: number, setW: (w: number) => {}) => JSX.Element
   strokeColorsComponent?: JSX.Element,
-  strokeColors?: {color: string}[]
+  strokeColors?: { color: string }[]
   defaultStrokeIndex?: number
   defaultStrokeWidth?: number
 
@@ -156,7 +157,7 @@ export interface RNSketchCanvasProps {
    * @param includeImage default true
    * @param cropToImageSize default false
    */
-  savePreference?: () => {folder: string, filename: string, transparent: boolean, imageType: ImageType, includeImage?: boolean, includeText?: boolean, cropToImageSize?: boolean}
+  savePreference?: () => { folder: string, filename: string, transparent: boolean, imageType: ImageType, includeImage?: boolean, includeText?: boolean, cropToImageSize?: boolean }
   onSketchSaved?: (result: boolean, path: string) => void
 
   text?: CanvasText[]

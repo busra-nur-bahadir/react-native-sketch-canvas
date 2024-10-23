@@ -5,12 +5,15 @@ import {
   FlatList,
 } from 'react-native';
 import SketchCanvas from './src/SketchCanvas';
+import {Tools} from './src/tools';
 // import { requestPermissions } from './src/handlePermissions';
 
 export default class RNSketchCanvas extends React.Component {
 
   static defaultProps = {
     touchEnabled: true,
+    currentTool: Tools.SKETCH,
+    setTool: () => { },
     containerStyle: null,
     menuStyle: null,
     canvasStyle: null,
@@ -74,7 +77,7 @@ export default class RNSketchCanvas extends React.Component {
       color: props.strokeColors[props.defaultStrokeIndex].color,
       strokeWidth: props.defaultStrokeWidth,
       alpha: 'FF',
-      subMenu: 'sketchComponent',
+      prevTool: undefined
     };
     this._colorChanged = false;
     this._strokeWidthStep = props.strokeWidthStep;
@@ -168,6 +171,22 @@ export default class RNSketchCanvas extends React.Component {
   //   await requestPermissions(this.props.permissionDialogTitle, this.props.permissionDialogMessage);
   // }
 
+  handleStrokeStart = (event) => {
+    if (this.props.currentTool !== Tools.ERASER && this.props.currentTool !== Tools.SKETCH) {
+      if (this.state.prevTool == Tools.ERASER || this.props.currentTool == Tools.SKETCH)
+        this.props.setTool(this.state.prevTool ?? Tools.SKETCH)
+      else
+        this.props.setTool(Tools.SKETCH)
+    }
+    this.props.onStrokeStart(event);
+  };
+
+  handleToolChange = (newTool) => {
+    this.setState({ prevTool: this.props.currentTool }, () => {
+      this.props.setTool(newTool);
+    });
+  };
+
   render() {
     return (
       <View style={this.props.containerStyle}>
@@ -176,9 +195,7 @@ export default class RNSketchCanvas extends React.Component {
             <View style={[this.props.menuInnerStyle]}>
               {this.props.sketchComponent && (
                 <TouchableOpacity onPress={() => {
-                  this.setState({
-                    subMenu: 'sketchComponent',
-                  })
+                  this.handleToolChange(Tools.SKETCH)
                   var tempColor = this.state.color == '#00000000' ? '#000000' : this.state.color
                   this.props.strokeSelectedComponent(tempColor + (this.state.color.length === 9 ? '' : this.state.alpha))
                   this.props.strokeComponent(tempColor)
@@ -195,19 +212,27 @@ export default class RNSketchCanvas extends React.Component {
               )}
               {this.props.eraseComponent && (
                 <TouchableOpacity onPress={() => {
-                  this.setState({ color: '#00000000', subMenu: 'eraseComponent' })
+                  this.setState({ color: '#00000000' })
+                  this.handleToolChange(Tools.ERASER)
                   this.props.onErasePressed();
                 }}>
                   {this.props.eraseComponent}
                 </TouchableOpacity>
               )}
               {this.props.undoComponent && (
-                <TouchableOpacity onPress={() => this.props.onUndoPressed(this.undo())}>
+                <TouchableOpacity onPress={() => {
+                  this.handleToolChange(Tools.UNDO)
+                  this.props.onUndoPressed(this.undo())
+                }}>
                   {this.props.undoComponent}
                 </TouchableOpacity>
               )}
               {this.props.clearComponent && (
-                <TouchableOpacity onPress={() => { this.clear(); this.props.onClearPressed(); }}>
+                <TouchableOpacity onPress={() => {
+                  this.handleToolChange(Tools.CLEAR)
+                  this.clear();
+                  this.props.onClearPressed();
+                }}>
                   {this.props.clearComponent}
                 </TouchableOpacity>
               )}
@@ -218,11 +243,11 @@ export default class RNSketchCanvas extends React.Component {
               )}
             </View>
             <View style={[this.props.menuInnerStyle]}>
-              {(this.props.strokeWidthComponent) && (
+              {(this.props.strokeWidthComponent) && (this.props.currentTool == Tools.ERASER || this.props.currentTool == Tools.SKETCH) && (
                 this.props.strokeWidthComponent(this.state.strokeWidth, (value) => this.nextStrokeWidth(value))
               )
               }
-              {(this.props.strokeWidthComponent) && (
+              {(this.props.strokeWidthComponent) && (this.props.currentTool == Tools.SKETCH) && (
                 <View style={[{ flexDirection: 'row' }]}>
                   <View style={{ justifyContent: 'center', alignItems: 'center', flexWrap: 'nowrap', flexDirection: 'row' }}>
                     {this.props.strokeColorsComponent}
@@ -247,7 +272,7 @@ export default class RNSketchCanvas extends React.Component {
           ref={(ref) => (this._sketchCanvas = ref)}
           style={this.props.canvasStyle}
           strokeColor={this.state.color + (this.state.color.length === 9 ? '' : this.state.alpha)}
-          onStrokeStart={this.props.onStrokeStart}
+          onStrokeStart={this.handleStrokeStart}
           onStrokeChanged={this.props.onStrokeChanged}
           onStrokeEnd={this.props.onStrokeEnd}
           user={this.props.user}
